@@ -18,7 +18,7 @@ Subpackages mirror stdlib naming so call sites read like the standard library th
 | `tarx` | `PackDir` / `UnpackDir` — directory ⇄ tar.gz with zip-slip defense | `archive/tar` leaves both loops to the caller, and the extraction loop is famously easy to get wrong |
 | `shellx` | `Quote` — POSIX single-quoting | Go has no `shlex`; unquoted interpolation into a shell line is an injection |
 | `randx` | `Hex(n)` — n random bytes as lowercase hex | the "short random id" helper every daemon re-writes |
-| `uuid` | `V4()` — random id; `V7()` — time-ordered id; `V7Hex()` — v7 as 32-char dashless hex | the id shapes services need without a full UUID dependency |
+| `uuid` | `V4`, `V7`, `V7Hex` — random / time-ordered ids | the id shapes services need without a full UUID dependency |
 
 Rules of the house:
 
