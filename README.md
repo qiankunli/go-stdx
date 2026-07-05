@@ -2,7 +2,7 @@
 
 Go stdlib extensions — **admitted only when the standard library doesn't offer it.**
 
-The long-term ambition is the slot Guava fills in Java: the utility layer a project reaches for before hand-writing a helper. Go's ecosystem splits that slot today — [samber/lo](https://github.com/samber/lo) owns generic collection transforms, [gods](https://github.com/emirpasic/gods) owns data structures, [lancet](https://github.com/duke-git/lancet) goes kitchen-sink — and go-stdx competes on discipline, not breadth: zero dependencies, stdlib-mirror naming, and nothing enters without repeated real-world copies.
+The long-term ambition is the slot Guava fills in Java: the utility layer a project reaches for before hand-writing a helper. Go's ecosystem splits that slot today — [samber/lo](https://github.com/samber/lo) owns generic collection transforms, [gods](https://github.com/emirpasic/gods) owns data structures, [lancet](https://github.com/duke-git/lancet) goes kitchen-sink — and go-stdx competes on discipline, not breadth: zero dependencies, stdlib-mirror naming, and only what fits that positioning.
 
 The name is the admission rule: a hand-rolled `max`, a `slices.Clone` re-implementation, or a `strconv` wrapper does not belong here — use stdlib. What earns a slot is the loop real projects keep re-writing because the stdlib deliberately omits it, plus the tiny primitives not worth a heavyweight dependency.
 
@@ -22,7 +22,7 @@ Rules of the house:
 
 - **Zero dependencies**, forever. Everything here leans only on the standard library.
 - **stdlib-first**: when Go's standard library grows an equivalent, the entry here is deprecated and removed.
-- **Rule of three**: nothing enters speculatively — an entry needs repeated hand-written copies across real projects before it earns a slot.
+- **Positioning is the bar**: anything genuinely generic that projects would otherwise hand-write belongs here — no waiting for N copies to accumulate first.
 
 ```go
 import (
