@@ -21,6 +21,24 @@ func TestEnvStr(t *testing.T) {
 	}
 }
 
+func TestEnvBool(t *testing.T) {
+	t.Setenv("STDX_T", "true")
+	if !EnvBool("STDX_T", false) {
+		t.Fatal("true not parsed")
+	}
+	t.Setenv("STDX_T", "0")
+	if EnvBool("STDX_T", true) {
+		t.Fatal("0 not parsed as false")
+	}
+	t.Setenv("STDX_T", "nope")
+	if !EnvBool("STDX_T", true) {
+		t.Fatal("unparsable should fall back to default")
+	}
+	if EnvBool("STDX_UNSET", false) {
+		t.Fatal("unset should fall back to default")
+	}
+}
+
 func TestEnvInt(t *testing.T) {
 	t.Setenv("STDX_T", "42")
 	if got := EnvInt("STDX_T", 7); got != 42 {
