@@ -2,9 +2,9 @@
 
 Go stdlib extensions — **admitted only when the standard library doesn't offer it.**
 
-The long-term ambition is the slot Guava fills in Java: the utility layer a project reaches for before hand-writing a helper. Go's ecosystem splits that slot today — [samber/lo](https://github.com/samber/lo) owns generic collection transforms, [gods](https://github.com/emirpasic/gods) owns data structures, [lancet](https://github.com/duke-git/lancet) goes kitchen-sink — and go-stdx competes on discipline, not breadth: zero dependencies, stdlib-mirror naming, and only what fits that positioning.
+The long-term ambition is the slot Guava fills in Java: the utility layer a project reaches for before hand-writing a helper. Go's ecosystem splits that slot today — [samber/lo](https://github.com/samber/lo) owns generic collection transforms, [gods](https://github.com/emirpasic/gods) owns data structures, [lancet](https://github.com/duke-git/lancet) goes kitchen-sink — and go-stdx competes on discipline, not breadth: stdlib-mirror naming, and only the small, common data operations every service would otherwise re-wrap.
 
-The name is the admission rule: a hand-rolled `max`, a `slices.Clone` re-implementation, or a `strconv` wrapper does not belong here — use stdlib. What earns a slot is the loop real projects keep re-writing because the stdlib deliberately omits it, plus the tiny primitives not worth a heavyweight dependency.
+The name is the admission rule: a hand-rolled `max`, a `slices.Clone` re-implementation, or a `strconv` wrapper does not belong here — use stdlib. What earns a slot is the three-to-five-line wrapper real projects keep re-writing because the stdlib deliberately omits it. Generating the underlying data (a UUID, a hash) is *not* our job — we lean on a mature library for that and wrap only the shape callers pass around.
 
 Subpackages mirror stdlib naming so call sites read like the standard library they extend:
 
@@ -18,11 +18,11 @@ Subpackages mirror stdlib naming so call sites read like the standard library th
 | `tarx` | `PackDir` / `UnpackDir` — directory ⇄ tar.gz with zip-slip defense | `archive/tar` leaves both loops to the caller, and the extraction loop is famously easy to get wrong |
 | `shellx` | `Quote` — POSIX single-quoting | Go has no `shlex`; unquoted interpolation into a shell line is an injection |
 | `randx` | `Hex(n)` — n random bytes as lowercase hex | the "short random id" helper every daemon re-writes |
-| `uuid` | `V4`, `V7`, `V7Hex` — random / time-ordered ids | the id shapes services need without a full UUID dependency |
+| `uuid` | `V4`, `V7`, `V7Hex` — random / time-ordered ids | thin wrappers over `google/uuid` for the string / dashless-hex shapes services keep re-wrapping |
 
 Rules of the house:
 
-- **Zero dependencies**, forever. Everything here leans only on the standard library.
+- **Don't reinvent the data, wrap the shape**: no chasing zero dependencies — a mature foundational library (`google/uuid`, …) is a fine dependency. What we add is the small wrapper around it, not a re-implementation of it.
 - **stdlib-first**: when Go's standard library grows an equivalent, the entry here is deprecated and removed.
 - **Positioning is the bar**: anything genuinely generic that projects would otherwise hand-write belongs here — no waiting for N copies to accumulate first.
 
