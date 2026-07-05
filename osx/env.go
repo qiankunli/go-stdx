@@ -18,6 +18,18 @@ func EnvStr(key, def string) string {
 	return def
 }
 
+// EnvBool returns the environment variable key parsed with
+// strconv.ParseBool ("1", "t", "true", ... case-insensitively), or def when
+// the variable is unset, empty, or unparsable.
+func EnvBool(key string, def bool) bool {
+	if v := os.Getenv(key); v != "" {
+		if b, err := strconv.ParseBool(v); err == nil {
+			return b
+		}
+	}
+	return def
+}
+
 // EnvInt returns the environment variable key parsed as an int, or def when
 // the variable is unset, empty, or unparsable.
 func EnvInt(key string, def int) int {

@@ -6,7 +6,7 @@ Go stdlib 扩展库，长期对标 Java 里 Guava 的位置——项目手写 he
 
 ## 代码地图
 
-子包镜像 stdlib 命名（`slicesx` / `osx` / `filepathx` / `tarx` / `shellx` / `randx` / `uuid`），调用点读起来像它扩展的那个标准库。一包一职责，包内保持小。
+子包镜像 stdlib 命名（`slicesx` / `stringsx` / `osx` / `ptrx` / `filepathx` / `tarx` / `shellx` / `randx` / `uuid`），调用点读起来像它扩展的那个标准库。一包一职责，包内保持小。
 
 ## 关键约定
 
