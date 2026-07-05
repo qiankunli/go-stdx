@@ -14,10 +14,12 @@ import (
 // Entropy failure degrades like V4 (timestamp fallback, never a panic).
 func V7() string {
 	var b [16]byte
+	// Stamp before the entropy read: a slow rand.Reader must not push the
+	// recorded time past the actual call time, or ordering loosens.
+	ms := uint64(time.Now().UnixMilli())
 	if _, err := io.ReadFull(rand.Reader, b[6:]); err != nil {
 		return fmt.Sprintf("fallback-%d", time.Now().UnixNano())
 	}
-	ms := uint64(time.Now().UnixMilli())
 	b[0] = byte(ms >> 40)
 	b[1] = byte(ms >> 32)
 	b[2] = byte(ms >> 24)

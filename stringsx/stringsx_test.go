@@ -15,6 +15,9 @@ func TestTruncate(t *testing.T) {
 	if got := Truncate("", 3); got != "" {
 		t.Fatalf("empty: %q", got)
 	}
+	if got := Truncate("hello", -1); got != "" {
+		t.Fatalf("negative max: %q", got)
+	}
 }
 
 func TestTruncateEllipsis(t *testing.T) {
@@ -23,6 +26,12 @@ func TestTruncateEllipsis(t *testing.T) {
 	}
 	if got := TruncateEllipsis("hi", 5); got != "hi" {
 		t.Fatalf("fits: %q", got)
+	}
+	if got := TruncateEllipsis("hello", -1); got != "..." {
+		t.Fatalf("negative max: %q", got)
+	}
+	if got := TruncateEllipsis("", -1); got != "" {
+		t.Fatalf("negative max empty: %q", got)
 	}
 }
 
