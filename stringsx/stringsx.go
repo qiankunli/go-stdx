@@ -4,33 +4,35 @@ package stringsx
 
 import "strings"
 
-// Truncate returns the first max bytes of s (unchanged when it already
-// fits). Byte semantics, not runes: this is a budget cap for logs and
-// storage columns; a multi-byte rune at the boundary may be split.
-// A negative max reads as 0 — a computed budget gone negative should
-// produce an empty string, not a panic.
+// Truncate returns the first max runes of s (unchanged when it already fits).
+// A negative max reads as 0 — a computed budget gone negative should produce
+// an empty string, not a panic.
 func Truncate(s string, max int) string {
 	if max < 0 {
 		max = 0
 	}
-	if len(s) <= max {
-		return s
+	if max == 0 {
+		return ""
 	}
-	return s[:max]
+	n := 0
+	for i := range s {
+		if n == max {
+			return s[:i]
+		}
+		n++
+	}
+	return s
 }
 
 // TruncateEllipsis is Truncate plus a trailing "..." so readers can tell a
-// cut string from a complete one. The ellipsis is added on top of max (the
-// result may be max+3 bytes) — it marks truncation rather than tightening
-// the budget. A negative max reads as 0.
+// cut string from a complete one. The ellipsis is added on top of max — it
+// marks truncation rather than tightening the rune budget.
 func TruncateEllipsis(s string, max int) string {
-	if max < 0 {
-		max = 0
-	}
-	if len(s) <= max {
+	out := Truncate(s, max)
+	if out == s {
 		return s
 	}
-	return s[:max] + "..."
+	return out + "..."
 }
 
 // FirstNonBlank returns the first value that contains any non-whitespace
