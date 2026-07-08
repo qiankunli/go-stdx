@@ -9,6 +9,9 @@ func TestTruncate(t *testing.T) {
 	if got := Truncate("hello", 3); got != "hel" {
 		t.Fatalf("cut: %q", got)
 	}
+	if got := Truncate("你好abc", 3); got != "你好a" {
+		t.Fatalf("rune cut: %q", got)
+	}
 	if got := Truncate("hi", 3); got != "hi" {
 		t.Fatalf("fits: %q", got)
 	}
@@ -23,6 +26,9 @@ func TestTruncate(t *testing.T) {
 func TestTruncateEllipsis(t *testing.T) {
 	if got := TruncateEllipsis("hello world", 5); got != "hello..." {
 		t.Fatalf("cut: %q", got)
+	}
+	if got := TruncateEllipsis("你好abc", 3); got != "你好a..." {
+		t.Fatalf("rune cut: %q", got)
 	}
 	if got := TruncateEllipsis("hi", 5); got != "hi" {
 		t.Fatalf("fits: %q", got)
