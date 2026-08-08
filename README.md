@@ -19,6 +19,7 @@ Subpackages mirror stdlib naming so call sites read like the standard library th
 | `shellx` | `Quote` — POSIX single-quoting | Go has no `shlex`; unquoted interpolation into a shell line is an injection |
 | `randx` | `Hex(n)` — n random bytes as lowercase hex | the "short random id" helper every daemon re-writes |
 | `uuid` | `V4`, `V7`, `V7Hex` — random / time-ordered ids | thin wrappers over `google/uuid` for the string / dashless-hex shapes services keep re-wrapping |
+| `timeline` | concurrent operation steps and detached snapshots | `context` and `time` provide propagation and clocks, but do not retain an export-neutral operation timeline |
 
 Rules of the house:
 
