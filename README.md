@@ -18,7 +18,7 @@ Subpackages mirror stdlib naming so call sites read like the standard library th
 | `tarx` | `PackDir` / `UnpackDir` — directory ⇄ tar.gz with zip-slip defense | `archive/tar` leaves both loops to the caller, and the extraction loop is famously easy to get wrong |
 | `shellx` | `Quote` — POSIX single-quoting | Go has no `shlex`; unquoted interpolation into a shell line is an injection |
 | `randx` | `Hex(n)` — n random bytes as lowercase hex | the "short random id" helper every daemon re-writes |
-| `uuid` | `New`, `V4`, `V7`, `V7Hex` — prefixed resource / random / time-ordered ids | thin wrappers over `google/uuid` for the resource ID, string, and dashless-hex shapes services keep re-wrapping |
+| `uuid` | `New`, `NewWithPrefix`, `V4`, `V7`, `V7Hex` — resource / random / time-ordered ids | thin wrappers over `google/uuid` for the resource ID, string, and dashless-hex shapes services keep re-wrapping |
 | `timeline` | concurrent operation steps and detached snapshots | `context` and `time` provide propagation and clocks, but do not retain an export-neutral operation timeline |
 
 Rules of the house:
@@ -37,7 +37,7 @@ import (
 
 port := osx.EnvInt("APP_PORT", 8080)
 id := "job-" + randx.Hex(6)
-resourceID := uuid.New("job")
+resourceID := uuid.NewWithPrefix("job")
 ids := slicesx.Uniq(rawIDs)
 ```
 

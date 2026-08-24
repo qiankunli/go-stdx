@@ -6,10 +6,16 @@ import (
 	guuid "github.com/google/uuid"
 )
 
-// New returns a time-ordered resource id in "prefix_<v7hex>" form. An empty
-// prefix returns the bare V7 hex value.
-func New(prefix string) string {
-	id := V7Hex()
+// New returns a time-ordered resource ID as a 32-character lowercase V7 hex
+// string.
+func New() string {
+	return V7Hex()
+}
+
+// NewWithPrefix returns a time-ordered resource ID in "prefix_<v7hex>" form.
+// An empty prefix returns the same bare V7 hex value as New.
+func NewWithPrefix(prefix string) string {
+	id := New()
 	if prefix == "" {
 		return id
 	}
