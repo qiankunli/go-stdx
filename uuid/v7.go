@@ -6,6 +6,22 @@ import (
 	guuid "github.com/google/uuid"
 )
 
+// New returns a time-ordered resource ID as a 32-character lowercase V7 hex
+// string.
+func New() string {
+	return V7Hex()
+}
+
+// NewWithPrefix returns a time-ordered resource ID in "prefix_<v7hex>" form.
+// An empty prefix returns the same bare V7 hex value as New.
+func NewWithPrefix(prefix string) string {
+	id := New()
+	if prefix == "" {
+		return id
+	}
+	return prefix + "_" + id
+}
+
 // V7 returns a time-ordered (version-7) UUID in canonical dashed form.
 // google/uuid keeps ordering even within a single millisecond, so these sort
 // by creation time — the property DB keys and sequential resource ids want,

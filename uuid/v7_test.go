@@ -8,6 +8,31 @@ import (
 
 var v7Re = regexp.MustCompile(`^[0-9a-f]{8}-[0-9a-f]{4}-7[0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$`)
 
+func TestNew(t *testing.T) {
+	got := New()
+	if !v7HexRe.MatchString(got) {
+		t.Fatalf("New() = %q, want bare V7 hex", got)
+	}
+	if got[12] != '7' {
+		t.Fatalf("New() = %q, version nibble = %c, want 7", got, got[12])
+	}
+}
+
+func TestNewWithPrefix(t *testing.T) {
+	got := NewWithPrefix("agent")
+	if matched, _ := regexp.MatchString(`^agent_[0-9a-f]{32}$`, got); !matched {
+		t.Fatalf("NewWithPrefix(agent) = %q, want prefixed V7 hex", got)
+	}
+	if got[18] != '7' {
+		t.Fatalf("NewWithPrefix(agent) = %q, version nibble = %c, want 7", got, got[18])
+	}
+
+	bare := NewWithPrefix("")
+	if !v7HexRe.MatchString(bare) {
+		t.Fatalf("NewWithPrefix(empty) = %q, want bare V7 hex", bare)
+	}
+}
+
 func TestV7Format(t *testing.T) {
 	for i := 0; i < 10; i++ {
 		got := V7()
